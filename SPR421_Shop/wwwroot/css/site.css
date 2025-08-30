@@ -29,3 +29,13 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+.category-list-item {
+    text-decoration:none;
+    color: black;
+}
+
+.category-list-item:hover {
+    cursor: pointer;
+    color: gray;
+}

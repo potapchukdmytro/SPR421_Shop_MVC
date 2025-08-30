@@ -1,21 +1,37 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using SPR421_Shop.Models;
+using SPR421_Shop.ViewModels;
 
 namespace SPR421_Shop.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly AppDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, AppDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string? category)
         {
-            return View();
+            IQueryable<Product> products = _context.Products;
+
+            if(!string.IsNullOrEmpty(category))
+            {
+                products = products
+                    .Where(p => p.Category != null && p.Category.Name.ToLower() == category.ToLower());
+            }
+
+            var viewModel = new HomeVM
+            {
+                Products = products,
+                Categories = _context.Categories
+            };
+            return View(viewModel);
         }
 
         public IActionResult Privacy()

@@ -1,5 +1,6 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SPR421_Shop;
+using SPR421_Shop.Repositories.Categories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,18 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     string? connectionString = builder.Configuration.GetConnectionString("LocalDb");
     options.UseSqlServer(connectionString);
 });
+
+// Add repositories
+
+// Прописує в Dependency injection по патерну Singleton
+// Об'єкт класу буде існувати в одному екземплярі
+//builder.Services.AddSingleton<CategoryRepository>();
+
+// Об'єкт буде створюватися при кожному використанні
+//builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+
+// Об'єкт буде створюватися для кожного HTTP запиту
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 var app = builder.Build();
 

@@ -28,7 +28,7 @@
                         <td class="text-center">@category.Name</td>
                         <td class="text-end">
                             <a asp-action="Update" asp-route-id="@category.Id" class="btn btn-success m-1">Редагувати</a>
-                            <a class="btn btn-danger m-1">Видалити</a>
+                            <button onclick="deleteCategory('@System.Text.Json.JsonSerializer.Serialize(category)')" data-bs-toggle="modal" data-bs-target="#deleteCategory" class="btn btn-danger m-1">Видалити</button>
                         </td>
                     </tr>
                 }
@@ -40,3 +40,21 @@ else
 {
     <h1 class="text-center">Категорії не знайдено</h1>
 }
+
+<div id="deleteCategory" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Видалити категорію</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="categoryDeleteMessage">Ви дійсно хочете видалити категорію?</p>
+            </div>
+            <div class="modal-footer">
+                <a id="categoryDeleteUrl" class="btn btn-danger">Видалити</a>
+                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Скасувати</button>
+            </div>
+        </div>
+    </div>
+</div>

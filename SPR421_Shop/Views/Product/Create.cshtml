@@ -1,0 +1,34 @@
+﻿@model CreateProductVM
+
+<h1 class="text-center mb-3">Створення товару</h1>
+<form asp-action="Create" method="post" class="w-50 m-auto p-3">
+    <div class="form-group w-50 m-auto">
+        <label for="Name" class="form-label">Назва</label>
+        <input asp-for="Name" name="Name" class="form-control" type="text" />
+    </div>
+    <div class="form-group w-50 m-auto">
+        <label for="Description" class="form-label">Опис</label>
+        <input asp-for="Description" name="Description" class="form-control" type="text" />
+    </div>
+    <div class="form-group w-50 m-auto">
+        <label for="Price" class="form-label">Ціна</label>
+        <input min="0" asp-for="Price" name="Price" class="form-control" type="number" />
+    </div>
+    <div class="form-group w-50 m-auto">
+        <label for="Amount" class="form-label">Кількість</label>
+        <input min="0" asp-for="Amount" name="Amount" class="form-control" type="number" />
+    </div>
+    <div class="form-group w-50 m-auto">
+        <label for="Category" class="form-label">Категорія</label>
+        <select asp-for="CategoryId" class="form-control">
+            @foreach(var category in Model.Categories)
+            {
+                <option value="@category.Id">@category.Name</option>
+            }
+        </select>
+    </div>
+    <div class="w-50 m-auto d-flex">
+        <input class="btn btn-success flex-grow-1 mx-1 my-3" type="submit" value="Створити" />
+        <a asp-action="Index" class="btn btn-dark flex-grow-1 mx-1 my-3">Повернутися</a>
+    </div>
+</form>
