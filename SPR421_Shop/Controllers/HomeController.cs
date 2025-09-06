@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using SPR421_Shop.Models;
+using SPR421_Shop.Services;
 using SPR421_Shop.ViewModels;
 
 namespace SPR421_Shop.Controllers
@@ -14,6 +16,18 @@ namespace SPR421_Shop.Controllers
         {
             _logger = logger;
             _context = context;
+        }
+
+        public IActionResult AddToCart(int productId)
+        {
+            if(productId == 0)
+            {
+                return NotFound();
+            }
+
+            HttpContext.Session.AddToCart(productId);
+
+            return RedirectToAction("Index");
         }
 
         public IActionResult Index(string? category)

@@ -94,3 +94,8 @@ body {
     transform: scale(1.03, 1.03);
     box-shadow: 1px 1px 5px black;
 }
+
+.nav-cart-icon:hover {
+    cursor: pointer;
+    background-color: rgba(0,0,0, 0.07);
+}

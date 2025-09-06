@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SPR421_Shop;
+using SPR421_Shop.Initializer;
 using SPR421_Shop.Repositories.Categories;
 using System.Text;
 
@@ -27,6 +28,15 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Об'єкт буде створюватися для кожного HTTP запиту
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
+// Add session
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromHours(1);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -40,6 +50,8 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseSession();
+
 app.UseAuthorization();
 
 app.MapStaticAssets();
@@ -48,5 +60,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
+
+app.Seed();
 
 app.Run();
