@@ -9,6 +9,7 @@ namespace SPR421_Shop.ViewModels
         public double Price { get; set; }
         public int Amount { get; set; }
         public int CategoryId { get; set; }
+        public IFormFile? Image { get; set; }
         public IEnumerable<Category> Categories { get; set; } = [];
     }
 }

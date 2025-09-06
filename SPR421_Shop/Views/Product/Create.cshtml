@@ -1,7 +1,7 @@
 ﻿@model CreateProductVM
 
 <h1 class="text-center mb-3">Створення товару</h1>
-<form asp-action="Create" method="post" class="w-50 m-auto p-3">
+<form enctype="multipart/form-data" asp-action="Create" method="post" class="w-50 m-auto p-3">
     <div class="form-group w-50 m-auto">
         <label for="Name" class="form-label">Назва</label>
         <input asp-for="Name" name="Name" class="form-control" type="text" />
@@ -26,6 +26,10 @@
                 <option value="@category.Id">@category.Name</option>
             }
         </select>
+    </div>
+    <div class="form-group w-50 m-auto">
+        <label for="Image" class="form-label">Зображення</label>
+        <input accept="image/*" name="File" asp-for="Image" class="form-control" type="file"/>
     </div>
     <div class="w-50 m-auto d-flex">
         <input class="btn btn-success flex-grow-1 mx-1 my-3" type="submit" value="Створити" />

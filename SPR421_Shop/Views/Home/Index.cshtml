@@ -14,20 +14,10 @@
     </div>
 
     @* Products *@
-    <div class="row row-cols-3 g-3 m-auto">
+    <div class="row row-cols-4 g-3 m-auto">
         @foreach (var product in Model.Products)
         {
-            <div col style="min-width: 200px">
-                <div class="card">
-                    <img class="card-img-top" src="@product.Image" alt="@product.Name">
-                    <div class="card-body">
-                        <h5 class="card-title">@product.Name</h5>
-                        <p class="card-text">@product.Description</p>
-                        <p style="font-weight: bold; font-size: 1.5em">@product.Price грн</p>
-                        <a href="#" class="btn btn-primary">Додати в кошик</a>
-                    </div>
-                </div>
-            </div>
+            <partial name="_ProductCard" model="product" />
         }
     </div>
 </div>

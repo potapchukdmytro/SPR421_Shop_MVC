@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SPR421_Shop;
 using SPR421_Shop.Repositories.Categories;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
