@@ -6,8 +6,8 @@ namespace SPR421_Shop.Services
 {
     public class EmailSender : IEmailSender
     {
-        private string _fromEmail = "dmytro.potapchuk22@gmail.com";
-        private string _password = "zqsr kson ibvh fgbm";
+        private string _fromEmail = "";
+        private string _password = "";
         private string _host = "smtp.gmail.com";
         private int _port = 587;
         private readonly SmtpClient _smtpClient;

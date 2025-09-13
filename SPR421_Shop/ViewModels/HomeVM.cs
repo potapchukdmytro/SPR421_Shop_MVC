@@ -6,5 +6,7 @@ namespace SPR421_Shop.ViewModels
     {
         public IEnumerable<Product> Products { get; set; } = [];
         public IEnumerable<Category> Categories { get; set; } = [];
+        public PaginationVM Pagination { get; set; } = new();
+        public string? Category { get; set; } = null;
     }
 }

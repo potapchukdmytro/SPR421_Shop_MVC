@@ -5,7 +5,9 @@ using SPR421_Shop;
 using SPR421_Shop.Initializer;
 using SPR421_Shop.Models;
 using SPR421_Shop.Repositories.Categories;
+using SPR421_Shop.Repositories.Product;
 using SPR421_Shop.Services;
+using SPR421_Shop.ViewModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +37,9 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     .AddDefaultTokenProviders()
     .AddDefaultUI();
 
+// Add pagination configuration
+builder.Services.Configure<PaginationVM>(builder.Configuration.GetSection("Pagination"));
+
 // Add repositories
 
 // Прописує в Dependency injection по патерну Singleton
@@ -46,6 +51,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
 // Об'єкт буде створюватися для кожного HTTP запиту
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 

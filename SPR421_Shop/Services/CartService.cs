@@ -15,6 +15,16 @@ namespace SPR421_Shop.Services
             }
         }
 
+        public static void RemoveFromCart(this ISession session, int productId)
+        {
+            if (session.ItemInCart(productId))
+            {
+                var items = session.CartItems();
+                items = items.Where(i => i.ProductId != productId).ToList();
+                session.SetCartItems(items);
+            }
+        }
+
         public static void SetCartItems(this ISession session, List<CartItemVM> items)
         {
             string json = JsonSerializer.Serialize(items);
