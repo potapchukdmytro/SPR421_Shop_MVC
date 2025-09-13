@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using SPR421_Shop.Models;
 
 namespace SPR421_Shop.Initializer
@@ -9,8 +10,41 @@ namespace SPR421_Shop.Initializer
         {
             using var scope = app.ApplicationServices.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             await context.Database.MigrateAsync();
 
+            // Roles and Users
+            if(!roleManager.Roles.Any())
+            {
+                var adminRole = new IdentityRole { Name = Settings.RoleAdmin };
+                var userRole = new IdentityRole { Name = Settings.RoleUser };
+
+                await roleManager.CreateAsync(adminRole);
+                await roleManager.CreateAsync(userRole);
+
+                var admin = new ApplicationUser
+                {
+                    Email = "admin@mail.com",
+                    UserName = "admin",
+                    EmailConfirmed = true
+                };
+
+                var user = new ApplicationUser
+                {
+                    Email = "user@mail.com",
+                    UserName = "user",
+                    EmailConfirmed = true
+                };
+
+                await userManager.CreateAsync(admin, "Qwerty123!");
+                await userManager.CreateAsync(user, "Qwerty123!");
+
+                await userManager.AddToRoleAsync(admin, Settings.RoleAdmin);
+                await userManager.AddToRoleAsync(user, Settings.RoleUser);
+            }
+
+            // Categories and Products
             if (!context.Categories.Any())
             {
                 try

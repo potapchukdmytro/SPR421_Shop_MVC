@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SPR421_Shop.Models;
 using SPR421_Shop.Repositories.Categories;
 using SPR421_Shop.ViewModels;
 
 namespace SPR421_Shop.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository _categoryRepository;
