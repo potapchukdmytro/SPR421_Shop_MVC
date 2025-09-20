@@ -1,0 +1,85 @@
+﻿@model IEnumerable<CartVM>
+
+<div class="container py-5">
+    <h1 class="mb-5">@(Model.Count() > 0 ? "Кошик" : "Кошик порожній")</h1>
+    <div class="row">
+        <div class="col-lg-8">
+            @if (Model.Count() > 0)
+            {
+                <div class="card mb-4">
+                    <div class="card-body">
+                        @foreach (var item in Model)
+                        {
+                            <!-- Cart Item -->
+                            <div class="row cart-item mb-3">
+                                <div class="col-md-3">
+                                    <img src="~/images/@(string.IsNullOrEmpty(item.Product.Image) ? "default.jpeg" : item.Product.Image)" alt="@item.Product.Name" class="img-fluid rounded">
+                                </div>
+                                <div class="col-md-5">
+                                    <h5 class="card-title">@item.Product.Name</h5>
+                                    <p class="text-muted">Category: @item.Product.Category!.Name</p>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <a asp-action="DecreaseCount" asp-route-productId="@item.Product.Id" class="btn btn-outline-secondary btn-sm">-</a>
+                                        <input style="max-width:100px" type="text" class="form-control  form-control-sm text-center quantity-input" value="@item.Count">
+                                        <a asp-action="IncreaseCount" asp-route-productId="@item.Product.Id" class="btn btn-outline-secondary btn-sm">+</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 text-end">
+                                    <p class="fw-bold">@item.TotalPrice ₴</p>
+                                    <a asp-action="RemoveFromCart" asp-route-productId="@item.Product.Id" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- Cart Item -->
+                            <hr />
+                        }
+                    </div>
+                </div>
+            }
+            <!-- Continue Shopping Button -->
+            <div class="text-start mb-4">
+                <a asp-controller="Home" class="btn btn-outline-primary">
+                    <i class="bi bi-arrow-left me-2"></i>Continue Shopping
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <!-- Cart Summary -->
+            <div class="card cart-summary">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Order Summary</h5>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Subtotal</span>
+                        @if(Model.Count() == 0)
+                        {
+                            <span>0 ₴</span>
+                        }
+                        else
+                        {
+                            <span>@Model.Select(m => m.TotalPrice).Aggregate((a, b) => a + b) ₴</span>
+                        }
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between mb-4">
+                        <strong>Total</strong>
+                        <strong>$229.97</strong>
+                    </div>
+                    <button class="btn btn-primary w-100">Proceed to Checkout</button>
+                </div>
+            </div>
+            <!-- Promo Code -->
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Apply Promo Code</h5>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Enter promo code">
+                        <button class="btn btn-outline-secondary" type="button">Apply</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

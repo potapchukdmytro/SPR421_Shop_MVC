@@ -54,5 +54,33 @@ namespace SPR421_Shop.Services
             var items = session.CartItems();
             return items.Any(i => i.ProductId == productId);
         }
+
+        public static void IncreaseCount(this ISession session, int productId, int maxValue)
+        {
+            var items = session.CartItems();
+            var item = items.FirstOrDefault(i => i.ProductId == productId);
+            if (item != null)
+            {
+                if (item.Count < maxValue)
+                {
+                    item.Count++;
+                    session.SetCartItems(items);
+                }
+            }
+        }
+
+        public static void DecreaseCount(this ISession session, int productId, int minValue)
+        {
+            var items = session.CartItems();
+            var item = items.FirstOrDefault(i => i.ProductId == productId);
+            if(item != null)
+            {
+                if(item.Count > minValue)
+                {
+                    item.Count--;
+                    session.SetCartItems(items);
+                }
+            }
+        }
     }
 }
