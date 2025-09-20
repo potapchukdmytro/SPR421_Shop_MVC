@@ -9,3 +9,9 @@ function deleteCategory(data) {
     message.innerText = `Ви дійсно хочете видалити категорію "${category.Name}"?`;
     link.href = "/Category/Delete/" + category.Id;
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const total = document.getElementById("total");
+    const subtotal = document.getElementById("subtotal");
+    total.innerText = subtotal.innerText;
+});

@@ -18,6 +18,7 @@ namespace SPR421_Shop.Repositories.Product
         {
             var products = Products
                 .Include(p => p.Category)
+                .OrderByDescending(p => p.Amount)
                 .Where(p => p.Category!.Name.ToLower() == category.ToLower());
             products = SetPagination(products, pagination);
             return products;
@@ -25,7 +26,7 @@ namespace SPR421_Shop.Repositories.Product
 
         public IQueryable<Models.Product> GetByPagination(PaginationVM pagination)
         {
-            return SetPagination(Products, pagination);
+            return SetPagination(Products.OrderByDescending(p => p.Amount), pagination);
         }
 
         public IQueryable<Models.Product> SetPagination(IQueryable<Models.Product> products, PaginationVM pagination)

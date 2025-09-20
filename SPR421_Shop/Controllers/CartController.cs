@@ -10,10 +10,12 @@ namespace SPR421_Shop.Controllers
     public class CartController : Controller
     {
         private readonly IProductRepository _productRepository;
+        private readonly AppDbContext _context;
 
-        public CartController(IProductRepository productRepository)
+        public CartController(IProductRepository productRepository, AppDbContext context)
         {
             _productRepository = productRepository;
+            _context = context;
         }
 
         public IActionResult IncreaseCount(int productId)
@@ -45,6 +47,27 @@ namespace SPR421_Shop.Controllers
 
             HttpContext.Session.RemoveFromCart(productId);
             return RedirectToAction("Index");
+        }
+
+        public IActionResult Checkout()
+        {
+            var sessionItems = HttpContext.Session.CartItems();
+            if(sessionItems.Count > 0)
+            {
+                var products = _productRepository.Products
+                    .ToList()
+                    .Where(p => sessionItems.Any(i => i.ProductId == p.Id));
+
+                foreach (var product in products)
+                {
+                    product.Amount -= sessionItems.First(i => i.ProductId == product.Id).Count;
+                }
+
+                _context.SaveChanges();
+                HttpContext.Session.ClearCart();
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Index()

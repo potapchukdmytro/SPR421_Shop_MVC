@@ -69,6 +69,11 @@ namespace SPR421_Shop.Services
             }
         }
 
+        public static void ClearCart(this ISession session)
+        {
+            session.SetCartItems(new List<CartItemVM>());
+        }
+
         public static void DecreaseCount(this ISession session, int productId, int minValue)
         {
             var items = session.CartItems();
